@@ -169,14 +169,17 @@
 
 <section><section>
 <h2>Why Causal Inference?</h2>
-<h3>1. Science: Why did something happen?</h3>
-<h3>2. Decisions: What will happen if I change something?</h3>
+<ol>
+<li><b>Science</b>: Why did something happen?</li>
+<li><b>Decisions</b>: What will happen if I change something?</li>
 
 </section>
 <section>
 <h2>Science</h2>
-<p>1. Associations are always more interesting when they're causal.</p>
-<p>2. Understanding a phenomenon is different than predicting it.</p>
+<ol>
+<li>Associations are always more interesting when they're causal.</li>
+<li>Understanding a phenomenon is different than predicting it.</li>
+</ol>
 
 </section>
 <section>
@@ -273,6 +276,9 @@
 
 <section><section>
 <h2>Randomized Experiment Example</h2>
+<h3>Muchnik, Aral, and Taylor (2013)</h3>
+<p>&ldquo;Social Influence Bias: A Randomized Experiment&rdquo;</p>
+
 </section></section>
 
 <section><section>
@@ -282,8 +288,38 @@
 
 </section>
 <section>
-<h2>Background</h2>
-<p></p>
+<img src=img/diffusion.jpg></img>
+
+</section>
+<section>
+<p>\( X_i \) : number of adopter friends </p>
+<p>\( Y_i \) : whether the user adopts </p>
+
+<img src=img/pnas2009.png></img>
+
+</section>
+<section>
+<p>The problem: </p>
+
+<img src=img/shalizi-dag.png></img>
+
+</section>
+<section>
+<h2>Matching</h2>
+
+<ul>
+<li>For every user with an adopter friend, find another user in the population.</li>
+<li>Make sure they are as similar as possible on every characteristic you can measure.</li>
+<li>Discard users for whom you cannot find a suitable match.</li>
+<li><b>KEY:</b>Find characteristics which are good proxies for the latent confounding variables.</li>
+</ul>
+
+</section>
+<section>
+
+<img src=img/pnas-result.png></img>
+
+<p>All treated adopters (filled circles) and the number of treated adopters that can be explained by homophily (open circles) per day and cumulatively over time.g</p>
 
 </section></section>
 
