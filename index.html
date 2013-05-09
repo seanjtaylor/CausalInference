@@ -38,6 +38,7 @@
 <p>
 <small><a href="http://seanjtaylor.com">Sean J. Taylor</a> / <a href="http://twitter.com/seanjtaylor">@seanjtaylor</a></small>
 </p>
+<p>http://seanjtaylor.github.io/CausalInference/</p>
 </section>
 
 <section><section>
@@ -71,17 +72,240 @@
 <section><section>
 <h2>Outline</h2>
 <ul>
-<li>Associations</li>
+<li>Associations and Causal Graphs</li>
 <li>Why do causal inference?</li>
-<li>Causal graphs</li>
 <li>Linear regression</li>
 <li>Potential outcomes model</li>
 <li>Randomized experiments</li>
 <li>Observational data analysis</li>
 </ul>
+
+</section>
+<section>
+<h2>Obligatory</h2>
+<img height=400 src="http://imgs.xkcd.com/comics/correlation.png" alt="xkcd">
+</section></section>
+
+<section><section>
+<h2>Associations</h2>
+<h3> \( (X_i, Y_i) \) </h3>
+<ul>
+<li>(smoking, cancer)</li>
+<li>(running the ball, winning games)</li>
+<li>(facebook fan, makes purchase)</li>
+<li>(shown ad, makes purchase)</li>
+<li>(toothbrushing, heart disease)</li>
+<li>(SAT scores, success in college)</li>
+</ul>
+
+</section>
+<section>
+<h2>Possible Relationships</h2>
+<ul>
+<li> \( \Pr( Y_i \mid X_i ) = \Pr( Y_i ) \) (independence) </li>
+<li> \( \Pr( Y_i \mid X_i ) \neq \Pr( Y_i ) \) (dependence) </li>
+</ul>
+<p>Dependence is useful. It's how we build predictive models.</p>
+
+</section>
+<section>
+<h2>Possible Causal Relationships</h2>
+<ol>
+<li> \( X_i \leftarrow Y_i \) </li>
+<li> \( X_i \rightarrow Y_i \) </li>
+<li> No causal relationship (but could still be correlated!) </li>
+</ol>
+<p>Notice how a dependency doesn't say which direction the causal relationship is.</p>
+
+</section>
+<section>
+<h2>Correlation without Causation </h2>
+<h3>Introducing \( Z_i \) </h3>
+<ul>
+<li> \( X_i \rightarrow Z_i \rightarrow Y_i \) (chain) </li>
+<li> \( X_i \leftarrow Z_i \leftarrow Y_i \) (chain) </li>
+<li> \( X_i \leftarrow Z_i \rightarrow Y_i \) (fork)</li>
+<li> \( X_i \rightarrow Z_i \leftarrow Y_i \) (collider) </li>
+</ul>
+
+</section>
+<section>
+<h2>Chains</h2>
+<h3>\( X_i \) doesn't cause \( Y_i \), it causes the cause.</h3>
+<p>Example: McDonald's opening doesn't cause obesity, it causes overeating... which causes obesity</p>
+
+</section>
+<section>
+<h2>Forks</h2>
+<h3>\( Z_i \) causes both \( X_i \) and \(Y_i \).</h3>
+<p>Example: High natural ability causes good SAT scores and success in college.</p>
+
+</section>
+<section>
+<h2>Colliders</h2>
+<h3>\( X_i \) and \(Y_i \) are independent, but not if we condition on \( Z_i \).</h3>
+<p>Example: Your car won't start either because you ran out of gas or the battery is dead. These are independent events, but if you condition on the car not starting, they are anti-correlated.</p>
+
+</section>
+<section>
+<h2>Confounding</h2>
+
+<ul>
+<li>(smoking, cancer) \( \rightarrow \) genetics</li>
+<li>(running the ball, winning games) \( \rightarrow \) having a lead</li>
+<li>(facebook fan, makes purchase) \( \rightarrow \) brand loyalty</li>
+<li>(shown ad, makes purchase) \( \rightarrow \) intent to buy</li>
+<li>(toothbrushing, heart disease) \( \rightarrow \) health consciousness</li>
+<li>(SAT scores, success in college) \( \rightarrow \) genetic intelligence</li>
+</ul>
+
+</section>
+<section>
+<h2>Bigger Example</h2>
+
+<img height=600 src=img/toothbrush.png></img>
+
+</section></section>
+
+<section><section>
+<h2>Why Causal Inference?</h2>
+<h3>1. Science: Why did something happen?</h3>
+<h3>2. Decisions: What will happen if I change something?</h3>
+
+</section>
+<section>
+<h2>Science</h2>
+<p>1. Associations are always more interesting when they're causal.</p>
+<p>2. Understanding a phenomenon is different than predicting it.</p>
+
+</section>
+<section>
+<img height=600 src=img/scurvy.jpg></img>
+<p>http://idlewords.com/2010/03/scott_and_scurvy.htm</p>
+
+</section>
+<section>
+<h2>Decisions</h2>
+<ul>
+  <li>quit smoking?</li>
+  <li>run the ball more?</li>
+  <li>try to recruit Facebook fans for my application?</li>
+  <li>purchase costly advertisements?</li>
+  <li>brush your teeth? :) </li>
+  <li>take an SAT prep class?</li>
+</ul>
+
+</section>
+<section>
+<h2>Decisions are different than predictions</h2>
+<h3>Prediction</h3>
+<p>Estimate: \( \Pr(Y_i \mid X_i) \)</p>
+<p>Predict: \( \Pr(Y_i \mid X_i = 1) \) </p>
+<h3>Decision</h3>
+<p>Estimate: \( \Pr(Y_i \mid do(X_i = 1)) \neq \Pr(Y_i \mid X_i = 1) \)</p>
+<p>Set: \( X_i = 1 \) for some units \( i \).</p>
+
+</section>
+<section>
+<h2>A Social Science Problem</h2>
+<p>Causality is easy in natural sciences.</p>
+<p>Molecules, cells, animals, plants are exchangeable!</p>
+<p>There is always a great deal we don't observe about people.</p>
+
+</section></section>
+
+<section><section>
+<h2>Linear Regression</h2>
+<p>\( Y_i = \beta X_i + \epsilon_i \)</p>
+<p>Often assumes:</p>
+<p>\( X_i \rightarrow Y_i \leftarrow \epsilon_i \)</p>
+
+</section>
+<section>
+<h2>Linear Regression Bias</h2>
+<p>\( \beta \) is usually a biased estimate of the causal effect.</p>
+<p>This is because \( \epsilon_i \) is not exogenous!</p>
+<p>Often easy to think of ways that \( \epsilon_i \rightarrow X_i \).</p>
+
+</section>
+<section>
+<h2>Add all the controls you want</h2>
+<p>You can always argue that there exists some component of \( \epsilon_i \) that affects \( X_i \) and driving the outcome.</p>
+
+</section></section>
+
+<section><section>
+<h2>Potential Outcomes Framework</h2>
+<h3>An alternative/complement to causal graphs</h3>
+
+<p>\( Y_i(0) \) is the outcome of \( i \) under no treatment. </p>
+<p>\( Y_i(1) \) is the outcome of \( i \) under treatment. </p>
+
+</section>
+<section>
+<h2>Example: god-mode</h2>
+<img height=600 src=img/potoutcomes0.png></img>
+
+</section>
+<section>
+<h2>Example: science-mode</h2>
+<img height=600 src=img/potoutcomes1.png></img>
+<p>Problem: we can only ever observe one of these values per row.</p>
+
+</section>
+<section>
+<h2>Best Solution: Random Assignment</h2>
+<img height=600 src=img/fisher.jpg></img>
+
+</section>
+<section>
+<h2>Random Assignment</h2>
+<p>Key idea: enforce that \( X_i \) is exogenous (has no parents) by assigning it randomly</p>
+<p>Prevents any confounding from being possible.</p>
+<p>The gold standard in clinical trials and policy experiments.</p>
+
+</section>
+<section>
+<h2>Another Solution: Matching</h2>
+<p>Key idea: make comparisons between observations that are as similar as possible on a boatload of observable dimensions.</p>
+
+</section></section>
+
+<section><section>
+<h2>Randomized Experiment Example</h2>
+</section></section>
+
+<section><section>
+<h2>Propensity Score Matching Example</h2>
+<h3>Aral, Muchnik, and Sundararajan (2009)</h3>
+<p>&ldquo;Distinguishing influence-based contagion from homophily-driven diffusion in dynamic networks&rdquo;</p>
+
+</section>
+<section>
+<h2>Background</h2>
+<p></p>
+
 </section></section>
 
 
+<section><section>
+<img height=600 src=img/more.jpg></img>
+
+</section>
+<section>
+<h3>Shalizi's Notes</h3>
+<ul>
+<li><a href="http://www.stat.cmu.edu/~cshalizi/uADA/12/lectures/ch22.pdf">Chapter 22:  Graphical Causal Models</a></li>
+<li><a href="http://www.stat.cmu.edu/~cshalizi/uADA/12/lectures/ch23.pdf">Chapter 23: Identifying Causal Effects from Observations I</a></li>
+<li><a href="http://www.stat.cmu.edu/~cshalizi/uADA/12/lectures/ch24.pdf">Chapter 24: Identifying Causal Effects from Observations II</a></li>
+
+<h3>Books</h3>
+<ul>
+<li>Morgan and Winship: Counterfactuals and Causal Inference</li>
+<li>Angrist and Pishke: Mostly Harmless Econometrics</li>
+</ul>
+
+</section></section>
 </div></div>
 
 		<script src="lib/js/head.min.js"></script>
